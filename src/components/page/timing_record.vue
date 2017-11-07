@@ -7,33 +7,54 @@
             </el-breadcrumb>
         </div>
         <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-            <el-select v-model="select_cate" placeholder="选择班级" class="handle-select mr10">
-                <el-option key="1" label="TC0806" value="TC0806"></el-option>
-                <el-option key="2" label="TC0807"sex value="TC0807"></el-option>
-                <el-option key="3" label="TC0808" value="TC0808"></el-option>
-            </el-select>
-            <el-input v-model="select_name" placeholder="学员姓名" class="handle-input mr10"></el-input>
-            <el-input v-model="select_num" placeholder="学员学号" class="handle-input mr10"></el-input>
-            <el-button type="primary" icon="search" @click="search">搜索</el-button>
+            <el-form :inline="true"  class="demo-form-inline">
+                <el-form-item label="班级：">
+                    <el-select v-model="select_class" class="v-input">
+                        <el-option key="1" label="TC0806" value="TC0806"></el-option>
+                        <el-option key="2" label="TC0807"sex value="TC0807"></el-option>
+                        <el-option key="3" label="TC0808" value="TC0808"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="学员：">
+                    <el-input class="v-input"></el-input>
+                </el-form-item>
+                <el-form-item label="时间：">
+                    <el-input class="v-input"></el-input>
+                </el-form-item>
+                <el-form-item label="至">
+                    <el-input class="v-input"></el-input>
+                </el-form-item>
+                <el-form-item>
+                <el-select v-model="select_state" size="5">
+                    <el-option key="1" label="正常" value="正常"></el-option>
+                    <el-option key="2" label="请假"sex value="请假"></el-option>
+                    <el-option key="3" label="迟到" value="迟到"></el-option>
+                    <el-option key="4" label="早退"sex value="早退"></el-option>
+                    <el-option key="5" label="旷课" value="旷课"></el-option>
+                </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="search" >搜索</el-button>
+                </el-form-item>
+            </el-form>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="序号"  width="70">
             </el-table-column>
-            <el-table-column prop="name" label="学员名称" width="100">
-            </el-table-column>
-            <el-table-column prop="sno" label="学号" width="120">
+            <el-table-column prop="name" label="学员" width="100">
             </el-table-column>
             <el-table-column prop="grade" label="班级" width="120">
             </el-table-column>
-            <el-table-column prop="sex" label="性别" width="100">
+            <el-table-column prop="date" label="日期" width="120">
             </el-table-column>
-            <el-table-column prop="education" label="学历" width="100">
+            <el-table-column prop="st-date" label="开始时间" width="150">
             </el-table-column>
-            <el-table-column prop="phone" label="联系号码" >
+            <el-table-column prop="end-date" label="结束时间" width="150">
             </el-table-column>
-            <el-table-column label="操作" >
+            <el-table-column prop="state" label="状态"   :formatter="formatter">
+            </el-table-column>
+            <el-table-column label="操作" width="180">
                 <template scope="scope">
                     <el-button size="small"
                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -53,16 +74,16 @@
 </template>
 
 <script>
+    import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
     export default {
-        data() {
+        components: {ElFormItem}, data() {
             return {
                 url: './static/stufile.json',
                 tableData: [],
                 cur_page: 1,
+                select_class:'',
+                select_state:'',
                 multipleSelection: [],
-                select_cate: '',
-                select_name: '',
-                select_num:'',
                 del_list: [],
                 is_search: false
             }
@@ -90,7 +111,7 @@
                     self.url = '/ms/vue/stu';
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    self.tableData = res.data.stu;
+                    self.tableData = res.data.stuCheck;
                 })
             },
             search(){
@@ -122,10 +143,9 @@
         }
     }
 </script>
-
 <style scoped>
     .handle-box{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .handle-select{
         width: 120px;
@@ -133,5 +153,8 @@
     .handle-input{
         width: 100px;
         display: inline-block;
+    }
+    .v-input{
+        width: 120px;
     }
 </style>

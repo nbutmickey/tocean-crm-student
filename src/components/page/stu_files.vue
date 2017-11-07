@@ -45,9 +45,9 @@
             </el-table-column>
             <el-table-column prop="education" label="学历" width="100">
             </el-table-column>
-            <el-table-column prop="phone" label="联系号码" >
+            <el-table-column prop="phone" label="联系号码"  :formatter="formatter" >
             </el-table-column>
-            <el-table-column label="操作" >
+            <el-table-column label="操作" width="180">
                 <template scope="scope">
                     <el-button size="small"
                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -122,7 +122,7 @@
                     self.url = '/ms/vue/stu';
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    self.tableData = res.data.stu;
+                    self.tableData = res.data.stufile;
                 })
             },
             search(){
