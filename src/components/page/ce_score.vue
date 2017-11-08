@@ -148,19 +148,8 @@
 </script>
 
 <style scoped>
-    .handle-box{
-        position: absolute;
-        right: 100px;
-
-    }
     .v-input{
         width: 120px;
-        border:1px solid;
-        border-radius: 4px;
-    }
-
-    .el-table{
-        margin-top: 100px;
     }
     .el-table .cell{
         text-align: center;

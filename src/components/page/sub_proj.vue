@@ -69,5 +69,5 @@
 </template>
 
 <style scoped>
-    @import "/static/css/style.css";
+    @import "/static/css/1.css";
 </style>
