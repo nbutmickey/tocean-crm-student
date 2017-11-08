@@ -11,10 +11,6 @@ export default new Router({
         },
         {
             path: '/home',
-            meta: {
-                // 添加该字段，表示进入这个路由是需要登录的
-                requireAuth: true,
-            },
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children:[
                 {
