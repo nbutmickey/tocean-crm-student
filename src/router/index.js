@@ -7,12 +7,13 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/home'
+            redirect: '/BaseTable'
         },
         {
             path: '/home',
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children:[
+
                 {
                     path: '/sub_job',
                     component: resolve => require(['../components/page/sub_job.vue'], resolve)
@@ -89,6 +90,11 @@ export default new Router({
                     path: '/group_disc',
                     component: resolve => require(['../components/page/group_disc.vue'], resolve)
                 },
+                {
+                    path: '/BaseTable',
+                    component: resolve => require(['../components/page/BaseTable.vue'], resolve)
+                },
+
                 {
                     path: '/ce_score',
                     component: resolve => require(['../components/page/ce_score.vue'], resolve)

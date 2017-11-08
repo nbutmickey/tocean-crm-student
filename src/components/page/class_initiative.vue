@@ -1,95 +1,144 @@
+
 <template>
     <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-menu"></i> 表格</el-breadcrumb-item>
-                <el-breadcrumb-item>Vue表格组件</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-menu"></i>&nbsp;&nbsp;当前页面</el-breadcrumb-item>
+                <el-breadcrumb-item>班级考评积极性查询</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="plugins-tips">
-            vue-datasource：一个用于动态创建表格的vue.js服务端组件。
-            访问地址：<a href="https://github.com/coderdiaz/vue-datasource" target="_blank">vue-datasource</a>
+        <div class="handle-box">
+            <el-form :inline="true"  class="demo-form-inline">
+                <el-form-item label="班级：">
+                    <el-select v-model="select_class" class="v-input">
+                        <el-option key="1" label="TC0806" value="TC0806"></el-option>
+                        <el-option key="2" label="TC0807"sex value="TC0807"></el-option>
+                        <el-option key="3" label="TC0808" value="TC0808"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="学员：">
+                    <el-input class="v-input"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" icon="search" >搜索</el-button>
+                </el-form-item>
+            </el-form>
         </div>
-        <datasource language="en" :table-data="getData" :columns="columns" :pagination="information.pagination"
-                    :actions="actions"
-                    v-on:change="changePage"
-                    v-on:searching="onSearch"></datasource>
+        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="id" label="序号"  width="70">
+            </el-table-column>
+            <el-table-column prop="name" label="学员" width="120">
+            </el-table-column>
+            <el-table-column prop="grade" label="班级" width="120">
+            </el-table-column>
+            <el-table-column prop="num" label="参与考评次数" width="170">
+            </el-table-column>
+            <el-table-column prop="effective" label="有效次数" width="170">
+            </el-table-column>
+            <el-table-column prop="score" label="考评得分"  :formatter="formatter">
+            </el-table-column>
+            <el-table-column label="操作" width="180" >
+                <template scope="scope">
+                    <el-button size="small"
+                               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button size="small" type="danger"
+                               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="pagination">
+            <el-pagination
+                @current-change ="handleCurrentChange"
+                layout="prev, pager, next"
+                :total="1000">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios';
-    import Datasource from 'vue-datasource';
+    import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
     export default {
-        data: function(){
-            const self = this;
+        components: {ElFormItem}, data() {
             return {
-                url: './static/datasource.json',
-                information: {
-                    pagination:{},
-                    data:[]
-                },
-                columns: [
-                    {
-                        name: 'Id',
-                        key: 'id',
-                    },
-                    {
-                        name: 'Name',
-                        key: 'name',
-                    },
-                    {
-                        name: 'email',
-                        key: 'email',
-                    },
-                    {
-                        name: 'ip',
-                        key: 'ip',
-                    }
-                ],
-                actions: [
-                    {
-                        text: 'Click',
-                        class: 'btn-primary',
-                        event(e, row) {
-                            self.$message('选中的行数： ' + row.row.id);
-                        }
-                    }
-                ],
-                query:''
+                url: './static/stufile.json',
+                tableData: [],
+                cur_page: 1,
+                select_class:'',
+                select_state:'',
+                multipleSelection: [],
+                del_list: [],
+                is_search: false
             }
         },
-        components: {
-            Datasource
+        created(){
+            this.getData();
+        },
+        computed: {
+            data(){
+                const self = this;
+                return self.tableData.filter(function(d){
+                    return true;
+                })
+
+            }
         },
         methods: {
-            changePage(values) {
-                this.information.pagination.per_page = values.perpage;
-                this.information.data = this.information.data;
+            handleCurrentChange(val){
+                this.cur_page = val;
+                this.getData();
             },
-            onSearch(searchQuery) {
-                this.query = searchQuery;
-            }
-        },
-        computed:{
             getData(){
-                const self = this;
-                return self.information.data.filter(function (d) {
-                    if(d.name.indexOf(self.query) > -1){
-                        return d;
-                    }
+                let self = this;
+                if(process.env.NODE_ENV === 'development'){
+                    self.url = '/ms/vue/stu';
+                };
+                self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
+                    self.tableData = res.data.stuClass;
                 })
+            },
+            search(){
+                this.is_search = true;
+            },
+            filterTag(value, row) {
+                return row.tag === value;
+            },
+            handleEdit(index, row) {
+                this.$message('编辑第'+(index+1)+'行');
+            },
+            handleDelete(index, row) {
+                this.$message.error('删除第'+(index+1)+'行');
+            },
+            delAll(){
+                const self = this,
+                    length = self.multipleSelection.length;
+                let str = '';
+                self.del_list = self.del_list.concat(self.multipleSelection);
+                for (let i = 0; i < length; i++) {
+                    str += self.multipleSelection[i].name + ' ';
+                }
+                self.$message.error('删除了'+str);
+                self.multipleSelection = [];
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             }
-        },
-        beforeMount(){
-            if(process.env.NODE_ENV === 'development'){
-                this.url = '/ms/table/source';
-            };
-            axios.get(this.url).then( (res) => {
-                this.information = res.data;
-            })
         }
     }
 </script>
-
-<style src="../../../static/css/datasource.css"></style>
+<style scoped>
+    .handle-box{
+        margin-bottom: 10px;
+    }
+    .handle-select{
+        width: 120px;
+    }
+    .handle-input{
+        width: 100px;
+        display: inline-block;
+    }
+    .v-input{
+        width: 120px;
+    }
+</style>

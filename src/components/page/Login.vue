@@ -22,8 +22,6 @@
     export default {
         data: function(){
             return {
-                errorMsg:'', //登录失败显示的信息
-                url:'/student/login' ,//后端的登录接口
                 ruleForm: {
                     username: '',
                     password: ''
@@ -35,32 +33,33 @@
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' }
                     ]
-                }
+                },
+                errorMsg:'',
+                url:'/student/login'
             }
         },
         methods: {
             submitForm(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {
-                    /*if (valid) {
-                        var param = {
+                    if (valid) {
+                        var param={
                             username:self.ruleForm.username,
                             password:self.ruleForm.password
                         };
-                        self.$axios.post(self.url, param).then((res) => {
+                        self.$axios.post(self.url,param).then((res)=>{
                             console.log(res.data.success);
-                            if(res.data.success){//登录成功
-                                localStorage.setItem('USERNAME',self.ruleForm.username);
+                            if(res.data.success){
+                                localStorage.setItem('USERNAMR',self.ruleForm.username);
                                 localStorage.setItem('JWT_TOKEN',res.data.result);
-                                self.$router.push('/readme');
+                                self.$router.push('/BaseTable');
                             }else{
-                                self.errorMsg = res.data.error;
+                                self.errorMsg=res.data.error;
                             }
                         })
-*/
-                    if (valid) {
-                        localStorage.setItem('USERNAME',self.ruleForm.username);
-                        self.$router.push('/readme');
+                       /* localStorage.setItem('ms_username',self.ruleForm.username);
+                        self.$router.push('/BaseTable');*/
+
                     } else {
                         console.log('error submit!!');
                         return false;
