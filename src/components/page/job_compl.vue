@@ -104,14 +104,14 @@
                     self.url = '/ms/vue/stu';
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    self.tableData = res.data.stuHome;
                 })
             },
             search(){
                 this.is_search = true;
             },
             filterTag(value, row) {
-                return row.tag === value;
+                return row.tag === value;                    self.tableData = res.data.stuHome;
+
             },
             handleEdit(index, row) {
                 this.$message('编辑第'+(index+1)+'行');
