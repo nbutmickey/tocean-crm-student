@@ -52,7 +52,7 @@
                             if(res.data.success){
                                 localStorage.setItem('USERNAMR',self.ruleForm.username);
                                 localStorage.setItem('JWT_TOKEN',res.data.result);
-                                self.$router.push('/BaseTable');
+                                self.$router.push('/Readme');
                             }else{
                                 self.errorMsg=res.data.error;
                             }
