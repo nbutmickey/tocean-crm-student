@@ -1,78 +1,31 @@
 <template>
-    <div>
+    <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 表单</el-breadcrumb-item>
-                <el-breadcrumb-item>图片上传</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-warning"></i> 问卷调查</el-breadcrumb-item>
+                <el-breadcrumb-item>历史问卷</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="content-title">支持拖拽</div>
-        <div class="plugins-tips">
-            Element UI自带上传组件。
-            访问地址：<a href="http://element.eleme.io/history-Que.vue#/zh-CN/component/upload" target="_blank">Element UI Upload</a>
+        <div>
+            <el-collapse v-model="activeNames" @change="handleChange">
+                <el-collapse-item title="调查列表 (+ 单击标题栏展开)" name="1">
+                    <el-table :data="tableData" border style="width: 100%">
+                        <el-table-column prop="number" label="序号" width="200"></el-table-column>
+                        <el-table-column prop="tname" label="调查名称" width="200"></el-table-column>
+                        <el-table-column prop="tcontent" label="调查内容" width="200"></el-table-column>
+                        <el-table-column prop="tpeople" label="考评对象" width="200"></el-table-column>
+                        <el-table-column prop="ttime" label="调查时间" width="200"></el-table-column>
+                        <el-table-column></el-table-column>
+                    </el-table>
+                </el-collapse-item>
+            </el-collapse>
         </div>
-        <el-upload
-            class="upload-demo"
-            drag
-            action="/api/posts/"
-            multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
-        <div class="content-title">支持裁剪</div>
-        <div class="plugins-tips">
-            Vue-Core-Image-Upload：一款轻量级的vue上传插件，支持裁剪。
-            访问地址：<a href="https://github.com/Vanthink-UED/vue-core-image-upload" target="_blank">Vue-Core-Image-Upload</a>
-        </div>
-        <img class="pre-img" :src="src" alt="">
-        <vue-core-image-upload :class="['pure-button','pure-button-primary','js-btn-crop']"
-                               :crop="true"
-                               text="上传图片"
-                               url="/api/posts/"
-                               extensions="png,gif,jpeg,jpg"
-                               @:imageuploaded="imageuploaded"
-                               @:errorhandle="handleError"></vue-core-image-upload>
     </div>
 </template>
 
+
 <script>
-    import VueCoreImageUpload  from 'vue-core-image-upload';
-    export default {
-        data: function(){
-            return {
-                src: './static/img/img.jpg',
-                fileList: []
-            }
-        },
-        components: {
-                VueCoreImageUpload
-        },
-        methods:{
-            imageuploaded(res) {
-                console.log(res)
-            },
-            handleError(){
-                this.$notify.error({
-                    title: '上传失败',
-                    message: '图片上传接口上传失败，可更改为自己的服务器接口'
-                });
-            }
-        }
-    }
+
 </script>
 
-<style scoped>
-    .content-title{
-        font-weight: 400;
-        line-height: 50px;
-        margin: 10px 0;
-        font-size: 22px;
-        color: #1f2f3d;
-    }
-    .pre-img{
-        width:250px;
-        height: 250px;
-        margin-bottom: 20px;
-    }
-</style>
+

@@ -27,14 +27,14 @@
         },
         computed:{
             username(){
-                let username = localStorage.getItem('USERNAMR');
+                let username = localStorage.getItem('USERNAME');
                 return username ;
             }
         },
         methods:{
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('USERNAMR');
+                    localStorage.removeItem('USERNAME');
                     localStorage.removeItem('JWT_TOKEN');
                     this.$router.go(0);
                 }else if(command=='login'){
