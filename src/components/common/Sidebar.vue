@@ -1,5 +1,6 @@
 <template>
-    <div class="sidebar">
+    <div class="sidebar" >
+
         <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" theme="dark" unique-opened router>
             <template v-for="item in items">
                 <template v-if="item.subs">
@@ -26,7 +27,7 @@
                 items: [
                     {
                         icon: 'el-icon-setting',
-                        index: 'home',
+                        index: 'BaseTable',
                         title: '首页'
                     }, {
                         icon: 'el-icon-edit',

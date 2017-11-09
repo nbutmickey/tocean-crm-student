@@ -1,79 +1,57 @@
-
 <template>
     <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-menu"></i>&nbsp;&nbsp;当前页面</el-breadcrumb-item>
-                <el-breadcrumb-item>学员违纪信息查询</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-menu"></i> 表格</el-breadcrumb-item>
+                <el-breadcrumb-item>基础表格</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="handle-box">
-            <el-form :inline="true"  class="demo-form-inline">
-                <el-form-item label="班级：">
-                    <el-select v-model="select_class" class="v-input">
-                        <el-option key="1" label="TC0806" value="TC0806"></el-option>
-                        <el-option key="2" label="TC0807"sex value="TC0807"></el-option>
-                        <el-option key="3" label="TC0808" value="TC0808"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="学员：">
-                    <el-input class="v-input"></el-input>
-                </el-form-item>
-                <el-form-item label="时间：">
-                    <el-input class="v-input"></el-input>
-                </el-form-item>
-                <el-form-item label="至">
-                    <el-input class="v-input"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" icon="search" >搜索</el-button>
-                </el-form-item>
-            </el-form>
+            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+            <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
+                <el-option key="1" label="广东省" value="广东省"></el-option>
+                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+            </el-select>
+            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+            <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="id" label="序号"  width="70">
+            <el-table-column prop="date" label="日期" sortable width="150">
             </el-table-column>
-            <el-table-column prop="name" label="学员" width="120">
+            <el-table-column prop="name" label="姓名" width="120">
             </el-table-column>
-            <el-table-column prop="grade" label="班级" width="120">
-            </el-table-column>
-            <el-table-column prop="date" label="违纪时间" width="170">
-            </el-table-column>
-            <el-table-column prop="condition" label="违纪情况" width="170">
-            </el-table-column>
-            <el-table-column prop="attitude" label="学员违纪态度"  :formatter="formatter">
+            <el-table-column prop="address" label="地址" :formatter="formatter">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">
                     <el-button size="small"
-                               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
-                               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <div class="pagination">
             <el-pagination
-                @current-change ="handleCurrentChange"
-                layout="prev, pager, next"
-                :total="1000">
+                    @current-change ="handleCurrentChange"
+                    layout="prev, pager, next"
+                    :total="1000">
             </el-pagination>
         </div>
     </div>
 </template>
 
 <script>
-    import ElFormItem from "../../../node_modules/element-ui/packages/form/src/form-item";
     export default {
-        components: {ElFormItem}, data() {
+        data() {
             return {
-                url: './static/stufile.json',
+                url: './static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
-                select_class:'',
-                select_state:'',
                 multipleSelection: [],
+                select_cate: '',
+                select_word: '',
                 del_list: [],
                 is_search: false
             }
@@ -85,9 +63,22 @@
             data(){
                 const self = this;
                 return self.tableData.filter(function(d){
-                    return true;
+                    let is_del = false;
+                    for (let i = 0; i < self.del_list.length; i++) {
+                        if(d.name === self.del_list[i].name){
+                            is_del = true;
+                            break;
+                        }
+                    }
+                    if(!is_del){
+                        if(d.address.indexOf(self.select_cate) > -1 &&
+                            (d.name.indexOf(self.select_word) > -1 ||
+                            d.address.indexOf(self.select_word) > -1)
+                        ){
+                            return d;
+                        }
+                    }
                 })
-
             }
         },
         methods: {
@@ -98,14 +89,17 @@
             getData(){
                 let self = this;
                 if(process.env.NODE_ENV === 'development'){
-                    self.url = '/ms/vue/stu';
+                    self.url = '/ms/vue/list';
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    self.tableData = res.data.stuWeiji;
+                    self.tableData = res.data.list;
                 })
             },
             search(){
                 this.is_search = true;
+            },
+            formatter(row, column) {
+                return row.address;
             },
             filterTag(value, row) {
                 return row.tag === value;
@@ -133,18 +127,16 @@
         }
     }
 </script>
+
 <style scoped>
-    .handle-box{
-        margin-bottom: 10px;
-    }
-    .handle-select{
-        width: 120px;
-    }
-    .handle-input{
-        width: 100px;
-        display: inline-block;
-    }
-    .v-input{
-        width: 120px;
-    }
+.handle-box{
+    margin-bottom: 20px;
+}
+.handle-select{
+    width: 120px;
+}
+.handle-input{
+    width: 300px;
+    display: inline-block;
+}
 </style>
