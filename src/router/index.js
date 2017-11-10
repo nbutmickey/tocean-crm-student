@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/BaseTable'
+            redirect: '/Readme'
         },
         {
             path: '/home',
@@ -91,8 +91,8 @@ export default new Router({
                     component: resolve => require(['../components/page/group_disc.vue'], resolve)
                 },
                 {
-                    path: '/BaseTable',
-                    component: resolve => require(['../components/page/BaseTable.vue'], resolve)
+                    path: '/Readme',
+                    component: resolve => require(['../components/page/Readme.vue'], resolve)
                 },
 
                 {

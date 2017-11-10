@@ -27,7 +27,7 @@
                 items: [
                     {
                         icon: 'el-icon-setting',
-                        index: 'BaseTable',
+                        index: 'Readme',
                         title: '首页'
                     }, {
                         icon: 'el-icon-edit',
