@@ -42,7 +42,7 @@
             </el-table-column>
             <el-table-column prop="condition" label="违纪情况" width="170">
             </el-table-column>
-            <el-table-column prop="attitude" label="学员违纪态度"  :formatter="formatter">
+            <el-table-column prop="attitude" label="学员违 纪态度"  :formatter="formatter">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">
