@@ -49,6 +49,13 @@
                 </el-collapse-item>
             </el-collapse>
         </div>
+        <div class="pagination">
+            <el-pagination
+                @current-change ="handleCurrentChange"
+                layout="prev, pager, next"
+                :total="1000">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -97,7 +104,23 @@
         methods: {
             onSubmit() {
                 console.log('submit!');
-            }
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            handleCurrentChange(val){
+                this.cur_page = val;
+                this.getData();
+            }/*,
+            getData(){
+                let self = this;
+                if(process.env.NODE_ENV === 'development'){
+                    self.url = '/ms/vue/stu';
+                };
+                self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
+                    self.tableData = res.data.stuCheck;
+                })
+            }*/
         }
     }
 </script>

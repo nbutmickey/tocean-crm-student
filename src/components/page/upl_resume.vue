@@ -8,37 +8,44 @@
             </el-breadcrumb>
         </div>
 
-        <el-collapse accordion>
-            <el-collapse-item>
-                <template slot="title">基本资料<span class="Little_Font">(+ 单击标题栏展开)</span></template>
-                <el-row>
-                    <el-col :span="3">
-                        <div class="grid-content bg-blue">简历：</div>
-                    </el-col>
-                    <el-col :span="17">
-                        <div class="grid-content flex">
-                            <el-upload
-                                action="/api/posts/"
-                                multiple>
-                                <el-input></el-input>
-                            </el-upload>
-                        </div>
-
-                    </el-col>
-                </el-row>
-            </el-collapse-item>
-        </el-collapse>
-
-        <el-row>
-            <el-col :span="24">
-                <div class="grid-content bg-purple-dark  center-hr">
-                    <el-button  >确认提交</el-button>
-                    <el-button  >重新输入</el-button>
-                </div>
-            </el-col>
-        </el-row>
+        <el-card class="box-card">
+            <div slot="header" class="card_header">
+                <span class="label">简历名称</span>
+                <el-input placeholder="请填写简历名称"></el-input>
+            </div>
+            <el-collapse>
+                <el-collapse-item title="简历备注" >
+                    <textarea class="disc"></textarea>
+                </el-collapse-item>
+                <el-collapse-item title="简历上传">
+                    <input type="file" />
+                </el-collapse-item>
+                <el-collapse-item title="图片上传">
+                    <input type="file"/>
+                </el-collapse-item>
+            </el-collapse>
+        </el-card>
     </div>
 </template>
-<style scoped>
-    @import "/static/style/css1.css";
+<script>
+
+</script>
+<style>
+    .label{
+        width: 8%;
+        margin: auto;
+    }
+    .card_header{
+        display: flex;
+        flex-direction: row;
+    }
+    .disc{
+        width: 100%;
+        background: none;
+        padding: 10px 0;
+        border: solid 1px #DFE6EC;
+    }
+
+
+
 </style>

@@ -72,13 +72,10 @@
             </el-collapse-item>
         </el-collapse>
 
-        <el-row>
-            <el-col :span="24">
-                <div class="grid-content bg-purple-dark  center-hr">
-                    <el-button>确认提交</el-button>
-                </div>
-            </el-col>
-        </el-row>
+        <div class=" bg-div  center">
+            <el-button>确认提交</el-button>
+            <el-button>重新输入</el-button>
+        </div>
     </div>
 </template>
 
@@ -102,5 +99,20 @@
 
 </script>
 <style scoped>
-    @import "/static/css/1.css";
+
+    .Little_Font{
+        margin-left: 10px;
+        font-size:12px;
+        font-weight:normal;
+    }
+    .center{
+        text-align: center;
+    }
+    .bg-div {
+        background: #99a9bf;
+        border: 1px solid  #d3e0e9;;
+    }
+    .el-input{
+        padding: 18px 0;
+    }
 </style>
