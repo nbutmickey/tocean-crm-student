@@ -9,7 +9,7 @@
         <div>
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item label="班级：">
-                    <el-select v-model="formInline.fclass" placeholder="">
+                    <el-select v-model="formInline.fclass" placeholder="" size="5">
                         <el-option label="" value="0093"></el-option>
                         <el-option label="" value="0241"></el-option>
                     </el-select>
@@ -26,7 +26,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                    <el-button type="primary" icon="search" @click="search">搜索</el-button>
                 </el-form-item>
             </el-form>
         </div>

@@ -12,6 +12,8 @@
                    <el-button type="text" @click="handleCommand('login')">请登录</el-button>
                 </span>
                 <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="profile">个人信息</el-dropdown-item>
+                    <el-dropdown-item command="password">修改密码</el-dropdown-item>
                     <el-dropdown-item command="loginout">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -39,6 +41,10 @@
                     this.$router.go(0);
                 }else if(command=='login'){
                     this.$router.push('/login');
+                }else if(command =='profile'){
+                    this.$router.push('/profile');
+                }else if(command =='password'){
+                    this.$router.push('/ChangePassword');
                 }
             }
         }

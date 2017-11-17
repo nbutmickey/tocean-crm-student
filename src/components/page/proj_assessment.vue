@@ -52,17 +52,17 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="序号"  width="70">
             </el-table-column>
-            <el-table-column prop="name" label="学员" width="120">
+            <el-table-column prop="student.name" label="学员" width="120">
             </el-table-column>
-            <el-table-column prop="grade" label="班级" width="120">
+            <el-table-column prop="student.classes.name" label="班级" width="120">
             </el-table-column>
-            <el-table-column prop="project" label="项目" width="170">
+            <el-table-column prop="projectPoll.projectname" label="项目" width="170">
             </el-table-column>
-            <el-table-column prop="date" label="考核日期" width="170">
+            <el-table-column prop="projectPoll.polldate" :formatter="dateFormatter" label="考核日期" width="170">
             </el-table-column>
-            <el-table-column prop="type" label="考核类型"  :formatter="formatter">
+            <el-table-column prop="projectPoll.polltype" label="考核类型"  >
             </el-table-column>
-            <el-table-column prop="score" label="分数" width="120">
+            <el-table-column prop="pollScore" label="分数" width="120">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">
@@ -119,10 +119,10 @@
             getData(){
                 let self = this;
                 if(process.env.NODE_ENV === 'development'){
-                    self.url = '/ms/vue/stu';
+                    self.url = '/student/api/findprojectpollitermbyid';
                 };
-                self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    self.tableData = res.data.stuProject;
+                self.$axios.get(self.url, {page:self.cur_page}).then((res) => {
+                    self.tableData = res.data.result;
                 })
             },
             search(){
@@ -143,13 +143,16 @@
                 let str = '';
                 self.del_list = self.del_list.concat(self.multipleSelection);
                 for (let i = 0; i < length; i++) {
-                    str += self.multipleSelection[i].name + ' ';
+                    str += self.multipleSelection[i].name + '';
                 }
                 self.$message.error('删除了'+str);
                 self.multipleSelection = [];
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+            },
+            dateFormatter(row, column){
+                return new Date(row.projectPoll.polldate).toLocaleDateString();
             }
         }
     }

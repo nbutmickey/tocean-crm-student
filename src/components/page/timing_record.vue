@@ -9,23 +9,23 @@
         <div class="handle-box">
             <el-form :inline="true"  class="demo-form-inline">
                 <el-form-item label="班级：">
-                    <el-select v-model="select_class" class="v-input">
+                    <el-select v-model="select_class" class="v-input" size="samll">
                         <el-option key="1" label="TC0806" value="TC0806"></el-option>
                         <el-option key="2" label="TC0807"sex value="TC0807"></el-option>
                         <el-option key="3" label="TC0808" value="TC0808"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="学员：">
-                    <el-input class="v-input"></el-input>
+                    <el-input class="v-input" size="samll"></el-input>
                 </el-form-item>
                 <el-form-item label="时间：">
-                    <el-input class="v-input"></el-input>
+                    <el-input class="v-input" size="samll"></el-input>
                 </el-form-item>
                 <el-form-item label="至">
-                    <el-input class="v-input"></el-input>
+                    <el-input class="v-input" size="samll"></el-input>
                 </el-form-item>
                 <el-form-item>
-                <el-select v-model="select_state" size="5">
+                <el-select v-model="select_state"  size="samll">
                     <el-option key="1" label="正常" value="正常"></el-option>
                     <el-option key="2" label="请假"sex value="请假"></el-option>
                     <el-option key="3" label="迟到" value="迟到"></el-option>
@@ -39,7 +39,6 @@
             </el-form>
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="序号"  width="70">
             </el-table-column>
             <el-table-column prop="name" label="学员" width="100">
@@ -53,14 +52,6 @@
             <el-table-column prop="end-date" label="结束时间" width="150">
             </el-table-column>
             <el-table-column prop="state" label="状态"   :formatter="formatter">
-            </el-table-column>
-            <el-table-column label="操作" width="180">
-                <template scope="scope">
-                    <el-button size="small"
-                               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="small" type="danger"
-                               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                </template>
             </el-table-column>
         </el-table>
         <div class="pagination">
@@ -145,6 +136,8 @@
 </script>
 <style scoped>
     .handle-box{
+        background-color:#EEF1F6;
+        padding:20px 0px 0px 10px;
         margin-bottom: 10px;
     }
     .handle-select{

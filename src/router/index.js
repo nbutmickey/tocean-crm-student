@@ -98,6 +98,15 @@ export default new Router({
                 {
                     path: '/ce_score',
                     component: resolve => require(['../components/page/ce_score.vue'], resolve)
+                },
+
+                {
+                    path: '/profile',
+                    component: resolve => require(['../components/page/Profile.vue'], resolve)
+                },
+                {
+                    path: '/ChangePassword',
+                    component: resolve => require(['../components/page/ChangePassword.vue'], resolve)
                 }
             ]
         },

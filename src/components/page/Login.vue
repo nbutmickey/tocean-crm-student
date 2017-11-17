@@ -50,7 +50,7 @@
                         self.$axios.post(self.url,param).then((res)=>{
                             console.log(res.data.success);
                             if(res.data.success){
-                                localStorage.setItem('USERNAMR',self.ruleForm.username);
+                                localStorage.setItem('USERNAME',self.ruleForm.username);
                                 localStorage.setItem('JWT_TOKEN',res.data.result);
                                 self.$router.push('/Readme');
                             }else{

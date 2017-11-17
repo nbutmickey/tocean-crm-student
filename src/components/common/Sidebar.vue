@@ -2,7 +2,11 @@
     <div class="sidebar" >
 
         <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" theme="dark" unique-opened router>
-            <template v-for="item in items">
+            <el-menu-item :index="items[0].index">
+                <i :class="items[0].icon"></i>{{ items[0].title }}
+            </el-menu-item>
+
+            <template v-for="(item,index) in items" v-if="!!username && index>=1">
                 <template v-if="item.subs">
                     <el-submenu :index="item.index">
                         <template slot="title"><i :class="item.icon"></i>{{ item.title }}</template>
@@ -92,10 +96,7 @@
                         index: 'stu_info',
                         title: '学员信息查询',
                         subs: [
-                            {
-                                index: 'stu_files',
-                                title: '学员档案'
-                            },{
+                           {
                                 index: 'timing_record',
                                 title:'考勤记录'
                             },{
@@ -129,8 +130,13 @@
             }
         },
         computed:{
+
             onRoutes(){
                 return this.$route.path.replace('/','');
+            },
+            username(){
+                let username = localStorage.getItem('USERNAME');
+                return username ;
             }
         }
     }
@@ -145,6 +151,9 @@
         top: 70px;
         bottom:0;
         background: #2E363F;
+        overflow-x: scroll;
+        /*i don‘t know add it*/
+        -webkit-scrollbar: none;
     }
     .sidebar > ul {
         height:100%;

@@ -40,5 +40,5 @@
     </div>
 </template>
 <style scoped>
-    @import "/static/css/1.css";
+    @import "/static/style/css1.css";
 </style>
